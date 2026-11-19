@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="deco">
+  <title>VIÑAMOR · CLUB LA RESERVA — Carta de Bebidas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+
+      /* 1 & 2. Palette: deep obsidian-navy + wine/burgundy tones + burnished gold accents */
+      --background: #0b0c12;                 /* deep dark navy-black */
+      --surface-container-low: #141018;      /* nocturnal plum-navy */
+      --surface-container: #1e111a;          /* deep wine-burgundy card surface */
+      --surface-container-high: #2b1623;     /* rich burgundy hover & active surface */
+      --wine-accent: #5e192b;                /* velvet wine-burgundy accent */
+      --wine-border: #7a263c;                /* luminous burgundy border */
+
+      /* Ink */
+      --on-surface: #f5ede0;                 /* warm cream-ivory */
+      --on-surface-variant: #cfc3b2;         /* warm champagne stone */
+
+      /* Rules */
+      --outline: #c9a14a;                    /* burnished gold: frames and primary rules */
+      --outline-variant: #593b37;            /* muted bronze-burgundy hairline, rules only */
+
+      /* Accents */
+      --primary: #d4af5a;                    /* burnished gold */
+      --on-primary: #0b0c12;                 /* obsidian-navy on gold */
+      --primary-container: #381824;          /* smoked burgundy-gold container */
+      --on-primary-container: #f5ede0;
+      --secondary: #d9a1ab;                  /* soft rosé-wine secondary voice */
+      --tertiary: #e3c478;                   /* bright gilt gold */
+      --error: #e8836f;
+      --on-error: #0b0c12;
+
+      /* Data / sensory series */
+      --data-1: #d4af5a;
+      --data-2: #d9a1ab;
+      --data-3: #86bfa5;
+      --data-4: #8aa9d6;
+      --data-context: #6e6268;
+
+      /* Fonts */
+      --font-headline: 'Josefin Sans', sans-serif;
+      --font-body: 'Lora', serif;
+      --font-label: 'Josefin Sans', sans-serif;
+
+      /* Shape */
+      --rounded: 0px;
+      --rounded-lg: 0px;
+      --rounded-full: 0px;
+
+      /* Style effects */
+      --gold-rule: 1px solid var(--outline);
+      --bronze-rule: 1px solid var(--outline-variant);
+      --wine-rule: 1px solid var(--wine-border);
+      --gold-frame-inset: 6px;
+      --pinstripe: repeating-linear-gradient(90deg, rgba(212, 175, 90, 0.04) 0 1px, transparent 1px 28px);
+      --wine-glow: radial-gradient(ellipse 90% 55% at 50% 0%, rgba(94, 25, 43, 0.45), transparent 72%);
+      --card-glow: linear-gradient(180deg, rgba(94, 25, 43, 0.22) 0%, rgba(20, 16, 24, 0.92) 100%);
+      --flank-rule-width: 28px;
+
+      /* 3. Shared tokens */
+      --positive: #86bfa5;
+      --warning: #d4af5a;
+      --focus: #e3c478;
+
+      /* Type scale (mobile-first narrative/editorial menu) */
+      --display-size: clamp(2.15rem, 1.3rem + 3.6vw, 3.35rem);
+      --club-size: clamp(1.05rem, 0.9rem + 0.85vw, 1.45rem);
+      --headline-size: clamp(1.35rem, 1.1rem + 1vw, 1.85rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+      --body-size: clamp(0.96875rem, 0.94rem + 0.2vw, 1.0625rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.25rem;
+      --space-2xl: 3.5rem;
+      --space-3xl: 5rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 240ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { overflow-x: clip; margin: 0; padding: 0; }
+    header { position: static !important; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--background);
+      background-image: var(--wine-glow), var(--pinstripe);
+      background-attachment: scroll;
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg) var(--space-md) var(--space-2xl);
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Focus rings */
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Masthead / Deco Double Gold Frame */
+    .masthead {
+      width: 100%;
+    }
+
+    .deco-frame {
+      border: var(--gold-rule);
+      outline: var(--gold-rule);
+      outline-offset: calc(-1 * var(--gold-frame-inset));
+      padding: var(--space-xl) var(--space-lg);
+      text-align: center;
+      background-image: var(--card-glow);
+      background-color: var(--surface-container-low);
+      position: relative;
+    }
+
+    .flanked {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      color: var(--primary);
+    }
+
+    .flanked::before,
+    .flanked::after {
+      content: "";
+      display: inline-block;
+      width: var(--flank-rule-width);
+      height: 1px;
+      background: var(--outline);
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--display-size);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      line-height: 1.1;
+      color: var(--primary);
+      margin: var(--space-md) 0 var(--space-xs);
+    }
+
+    .club-title {
+      font-family: var(--font-headline);
+      font-weight: 300;
+      font-size: var(--club-size);
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      line-height: 1.25;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-md);
+    }
+
+    .masthead-divider {
+      width: 64px;
+      height: 1px;
+      background: var(--outline);
+      margin: 0 auto var(--space-md);
+    }
+
+    .masthead-subtitle {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: var(--body-size);
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    /* Quick Category Navigation & Global Toggle */
+    .controls-bar {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .category-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-sm);
+    }
+
+    .nav-btn {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--on-surface);
+      background-color: var(--surface-container-low);
+      border: var(--bronze-rule);
+      padding: 0 var(--space-md);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color var(--dur-short) var(--ease-out),
+                  border-color var(--dur-short) var(--ease-out),
+                  color var(--dur-short) var(--ease-out);
+    }
+
+    .nav-btn:hover {
+      background-color: var(--surface-container-high);
+      border-color: var(--outline);
+      color: var(--tertiary);
+    }
+
+    .nav-btn:active {
+      background-color: var(--primary-container);
+    }
+
+    .nav-btn.is-active {
+      background-color: var(--wine-accent);
+      border-color: var(--outline);
+      color: var(--on-surface);
+    }
+
+    .utility-row {
+      display: flex;
+      justify-content: center;
+    }
+
+    .toggle-all-btn {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--tertiary);
+      background-color: transparent;
+      border: var(--gold-rule);
+      padding: 0 var(--space-md);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      cursor: pointer;
+      transition: background-color var(--dur-short) var(--ease-out),
+                  color var(--dur-short) var(--ease-out);
+    }
+
+    .toggle-all-btn:hover {
+      background-color: var(--primary-container);
+      color: var(--on-surface);
+    }
+
+    .toggle-all-btn:active {
+      background-color: var(--surface-container-high);
+    }
+
+    /* Menu Sections */
+    .menu-sections {
+      display: grid;
+      gap: var(--space-2xl);
+    }
+
+    .menu-section {
+      display: grid;
+      gap: var(--space-md);
+      scroll-margin-top: var(--space-md);
+    }
+
+    .section-header {
+      text-align: center;
+      border-bottom: var(--gold-rule);
+      padding-bottom: var(--space-md);
+    }
+
+    .section-title {
+      font-family: var(--font-headline);
+      font-weight: 400;
+      font-size: var(--headline-size);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      line-height: 1.2;
+      color: var(--on-surface);
+      margin: var(--space-sm) 0 0;
+    }
+
+    .promo-strip {
+      background-color: var(--primary-container);
+      border: var(--wine-rule);
+      padding: var(--space-sm) var(--space-md);
+      text-align: center;
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--tertiary);
+    }
+
+    /* Drink List & Cards */
+    .drink-list {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .drink-card-wrapper {
+      container-type: inline-size;
+    }
+
+    .drink-card {
+      background-color: var(--surface-container-low);
+      background-image: var(--card-glow);
+      border: var(--bronze-rule);
+      border-left: 3px solid var(--wine-border);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+      transition: border-color var(--dur-short) var(--ease-out),
+                  background-color var(--dur-short) var(--ease-out);
+    }
+
+    .drink-card:hover {
+      border-color: var(--outline);
+    }
+
+    .drink-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-sm) var(--space-md);
+      align-items: start;
+    }
+
+    .drink-name {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.25;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .price-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: var(--space-xs);
+      text-align: right;
+    }
+
+    .drink-price {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      letter-spacing: 0.06em;
+      font-variant-numeric: lining-nums tabular-nums;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .promo-badge {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--on-surface);
+      background-color: var(--wine-accent);
+      border: var(--gold-rule);
+      padding: 2px var(--space-sm);
+      white-space: nowrap;
+    }
+
+    .drink-desc {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--body-size);
+      line-height: 1.55;
+      color: var(--on-surface-variant);
+      margin: 0;
+      max-width: 62ch;
+    }
+
+    /* Collapsible Flavor Profile */
+    .flavor-disclosure {
+      border-top: var(--bronze-rule);
+      padding-top: var(--space-sm);
+      margin-top: var(--space-xs);
+    }
+
+    .flavor-trigger {
+      width: 100%;
+      min-height: 44px;
+      background-color: var(--surface-container);
+      border: var(--bronze-rule);
+      color: var(--tertiary);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      cursor: pointer;
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      transition: background-color var(--dur-short) var(--ease-out),
+                  border-color var(--dur-short) var(--ease-out),
+                  color var(--dur-short) var(--ease-out);
+    }
+
+    .flavor-trigger:hover {
+      background-color: var(--surface-container-high);
+      border-color: var(--outline);
+      color: var(--on-surface);
+    }
+
+    .flavor-trigger[aria-expanded="true"] {
+      background-color: var(--primary-container);
+      border-color: var(--outline);
+      color: var(--tertiary);
+    }
+
+    .flavor-trigger-right {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--on-surface-variant);
+      font-weight: 400;
+      letter-spacing: 0.14em;
+    }
+
+    .chevron-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--primary);
+      transition: transform var(--dur-short) var(--ease-in-out);
+    }
+
+    .flavor-trigger[aria-expanded="true"] .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    .flavor-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition: grid-template-rows var(--dur-short) var(--ease-in-out),
+                  opacity var(--dur-short) var(--ease-out);
+    }
+
+    .flavor-panel.is-open {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+
+    .flavor-panel-inner {
+      overflow: hidden;
+    }
+
+    .flavor-content {
+      background-color: var(--surface-container);
+      border-left: var(--gold-rule);
+      border-right: var(--bronze-rule);
+      border-bottom: var(--bronze-rule);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .flavor-note-text {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: var(--body-size);
+      line-height: 1.55;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .flavor-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .flavor-tag {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--secondary);
+      border: var(--bronze-rule);
+      background-color: var(--surface-container-low);
+      padding: 3px var(--space-sm);
+    }
+
+    /* Container query for ultra-narrow phones */
+    @container (max-width: 340px) {
+      .drink-top {
+        grid-template-columns: 1fr;
+      }
+      .price-block {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+
+    /* Footer */
+    .menu-footer {
+      border-top: var(--gold-rule);
+      padding-top: var(--space-lg);
+      text-align: center;
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    .footer-brand {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      color: var(--primary);
+      margin: 0;
+    }
+
+    .footer-location {
+      font-family: var(--font-body);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    /* Scroll reveal subtle animation */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity var(--dur-long) var(--ease-out),
+                  transform var(--dur-long) var(--ease-out);
+    }
+
+    .reveal-item.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        grid-template-columns: 1fr;
+        padding: var(--space-md) var(--space-md) var(--space-2xl);
+        gap: var(--space-lg);
+      }
+      .deco-frame {
+        padding: var(--space-lg) var(--space-md);
+      }
+      .flanked {
+        --flank-rule-width: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal-item {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+    <header class="masthead">
+      <div class="deco-frame">
+        <span class="flanked">Paseo Cayalá</span>
+        <h1 class="brand-title">VIÑAMOR</h1>
+        <p class="club-title">CLUB LA RESERVA</p>
+        <div class="masthead-divider" aria-hidden="true"></div>
+        <p class="masthead-subtitle">Carta exclusiva de bebidas para el evento</p>
+      </div>
+    </header>
+
+    <nav class="controls-bar" aria-label="Categorías del menú">
+      <div class="category-nav">
+        <button type="button" class="nav-btn is-active" id="nav-spritzeria" onclick="jumpToCategory('spritzeria', this)">La Spritzeria</button>
+        <button type="button" class="nav-btn" id="nav-tinto" onclick="jumpToCategory('tinto', this)">Vino Tinto</button>
+        <button type="button" class="nav-btn" id="nav-blanco" onclick="jumpToCategory('blanco', this)">Vino Blanco</button>
+      </div>
+      <div class="utility-row">
+        <button type="button" class="toggle-all-btn" id="toggle-all-btn" onclick="toggleAllFlavors()" aria-pressed="false">
+          <span id="toggle-all-label">Expandir perfiles de sabor</span>
+        </button>
+      </div>
+    </nav>
+
+    <main class="menu-sections" id="menu-root">
+      <!-- Rendered dynamically from grounded menu data -->
+    </main>
+
+    <footer class="menu-footer">
+      <p class="footer-brand">VIÑAMOR · CLUB LA RESERVA</p>
+      <p class="footer-location">22 Calle 9-33 Zona 16, Paseo Cayalá, Guatemala</p>
+      <p class="footer-location">Precios expresados en quetzales (Q). Selección oficial de Viñamor.</p>
+    </footer>
+  </div>
+
+  <script>
+    const MENU_CATEGORIES = [
+      {
+        id: `spritzeria`,
+        eyebrow: `Cócteles burbujeantes`,
+        title: `La Spritzeria`,
+        promoBanner: `Promoción del evento: 2x Q139 en toda La Spritzeria`,
+        drinks: [
+          {
+            id: `aperol-spritz`,
+            name: `Aperol Spritz`,
+            price: `Q75`,
+            promo: `Promo 2x Q139`,
+            description: `Aperitivo italiano con Aperol, espumoso y toque de soda.`,
+            flavorProfile: `Cítrico amargo, refrescante, notas de naranja.`,
+            notes: [`Cítrico amargo`, `Refrescante`, `Notas de naranja`]
+          },
+          {
+            id: `hugo-spritz`,
+            name: `Hugo Spritz`,
+            price: `Q75`,
+            promo: `Promo 2x Q139`,
+            description: `Licor de saúco, espumoso y menta fresca.`,
+            flavorProfile: `Floral, herbal fresco, delicadamente dulce.`,
+            notes: [`Floral`, `Herbal fresco`, `Delicadamente dulce`]
+          },
+          {
+            id: `limonchello-spritz`,
+            name: `Limonchello Spritz`,
+            price: `Q75`,
+            promo: `Promo 2x Q139`,
+            description: `Limoncello de la Costa Amalfitana con espumoso.`,
+            flavorProfile: `Cítrico vibrante, dulce-ácido, refrescante.`,
+            notes: [`Cítrico vibrante`, `Dulce-ácido`, `Refrescante`]
+          }
+        ]
+      },
+      {
+        id: `tinto`,
+        eyebrow: `Selección de bodega`,
+        title: `Vino Tinto`,
+        promoBanner: ``,
+        drinks: [
+          {
+            id: `finca-las-moras-malbec`,
+            name: `Finca Las Moras Malbec`,
+            price: `Q45`,
+            promo: ``,
+            description: `Tinto mendocino con aromas a ciruela y frutos negros.`,
+            flavorProfile: `Frutal, sedoso, taninos suaves.`,
+            notes: [`Frutal`, `Sedoso`, `Taninos suaves`]
+          }
+        ]
+      },
+      {
+        id: `blanco`,
+        eyebrow: `Selección de bodega`,
+        title: `Vino Blanco`,
+        promoBanner: ``,
+        drinks: [
+          {
+            id: `rene-barbier-blanco`,
+            name: `René Barbier Blanco Semi Dulce`,
+            price: `Q45`,
+            promo: ``,
+            description: `Blanco suave con perfil frutal y floral.`,
+            flavorProfile: `Semidulce, frutal, notas florales amables.`,
+            notes: [`Semidulce`, `Frutal`, `Notas florales amables`]
+          }
+        ]
+      }
+    ];
+
+    function buildMenu() {
+      const root = document.getElementById(`menu-root`);
+      if (!root) return;
+
+      let html = ``;
+      MENU_CATEGORIES.forEach(function (cat) {
+        const promoHtml = cat.promoBanner
+          ? `<div class="promo-strip">${cat.promoBanner}</div>`
+          : ``;
+
+        let drinksHtml = ``;
+        cat.drinks.forEach(function (drink) {
+          const promoBadge = drink.promo
+            ? `<span class="promo-badge">${drink.promo}</span>`
+            : ``;
+
+          const tagsHtml = drink.notes
+            .map(function (tag) {
+              return `<span class="flavor-tag">${tag}</span>`;
+            })
+            .join(``);
+
+          drinksHtml += `
+            <div class="drink-card-wrapper reveal-item">
+              <article class="drink-card" aria-labelledby="title-${drink.id}">
+                <div class="drink-top">
+                  <h3 class="drink-name" id="title-${drink.id}">${drink.name}</h3>
+                  <div class="price-block">
+                    <span class="drink-price">${drink.price}</span>
+                    ${promoBadge}
+                  </div>
+                </div>
+                <p class="drink-desc">${drink.description}</p>
+                <div class="flavor-disclosure">
+                  <button
+                    type="button"
+                    class="flavor-trigger"
+                    id="btn-${drink.id}"
+                    aria-expanded="false"
+                    aria-controls="panel-${drink.id}"
+                    onclick="toggleFlavor('${drink.id}')"
+                  >
+                    <span>Perfil de sabor</span>
+                    <span class="flavor-trigger-right">
+                      <span class="flavor-action-text" id="action-${drink.id}">Ver notas</span>
+                      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="flavor-panel" id="panel-${drink.id}" role="region" aria-labelledby="btn-${drink.id}">
+                    <div class="flavor-panel-inner">
+                      <div class="flavor-content">
+                        <p class="flavor-note-text">${drink.flavorProfile}</p>
+                        <div class="flavor-tags">${tagsHtml}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          `;
+        });
+
+        html += `
+          <section class="menu-section" id="${cat.id}" aria-labelledby="heading-${cat.id}">
+            <div class="section-header">
+              <span class="flanked">${cat.eyebrow}</span>
+              <h2 class="section-title" id="heading-${cat.id}">${cat.title}</h2>
+            </div>
+            ${promoHtml}
+            <div class="drink-list">
+              ${drinksHtml}
+            </div>
+          </section>
+        `;
+      });
+
+      root.innerHTML = html;
+      initRevealObserver();
+    }
+
+    function setFlavorState(drinkId, shouldOpen) {
+      const btn = document.getElementById(`btn-${drinkId}`);
+      const panel = document.getElementById(`panel-${drinkId}`);
+      const actionText = document.getElementById(`action-${drinkId}`);
+      if (!btn || !panel) return;
+
+      btn.setAttribute(`aria-expanded`, shouldOpen ? `true` : `false`);
+      if (shouldOpen) {
+        panel.classList.add(`is-open`);
+        if (actionText) actionText.textContent = `Ocultar`;
+      } else {
+        panel.classList.remove(`is-open`);
+        if (actionText) actionText.textContent = `Ver notas`;
+      }
+    }
+
+    function syncToggleAllButton() {
+      const allButtons = document.querySelectorAll(`.flavor-trigger`);
+      const toggleAllBtn = document.getElementById(`toggle-all-btn`);
+      const toggleAllLabel = document.getElementById(`toggle-all-label`);
+      if (!toggleAllBtn || !toggleAllLabel || allButtons.length === 0) return;
+
+      let allOpen = true;
+      allButtons.forEach(function (b) {
+        if (b.getAttribute(`aria-expanded`) !== `true`) {
+          allOpen = false;
+        }
+      });
+
+      toggleAllBtn.setAttribute(`aria-pressed`, allOpen ? `true` : `false`);
+      toggleAllLabel.textContent = allOpen
+        ? `Ocultar perfiles de sabor`
+        : `Expandir perfiles de sabor`;
+    }
+
+    function toggleFlavor(drinkId) {
+      const btn = document.getElementById(`btn-${drinkId}`);
+      if (!btn) return;
+      const isExpanded = btn.getAttribute(`aria-expanded`) === `true`;
+      setFlavorState(drinkId, !isExpanded);
+      syncToggleAllButton();
+    }
+
+    function toggleAllFlavors() {
+      const toggleAllBtn = document.getElementById(`toggle-all-btn`);
+      if (!toggleAllBtn) return;
+      const currentlyAllOpen = toggleAllBtn.getAttribute(`aria-pressed`) === `true`;
+      const targetState = !currentlyAllOpen;
+
+      MENU_CATEGORIES.forEach(function (cat) {
+        cat.drinks.forEach(function (drink) {
+          setFlavorState(drink.id, targetState);
+        });
+      });
+
+      syncToggleAllButton();
+    }
+
+    function jumpToCategory(sectionId, clickedBtn) {
+      const navButtons = document.querySelectorAll(`.nav-btn`);
+      navButtons.forEach(function (btn) {
+        btn.classList.remove(`is-active`);
+      });
+      if (clickedBtn) {
+        clickedBtn.classList.add(`is-active`);
+      }
+
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: `smooth`, block: `start` });
+      }
+    }
+
+    function initRevealObserver() {
+      const items = document.querySelectorAll(`.reveal-item`);
+      if (!items.length) return;
+
+      if (!(`IntersectionObserver` in window)) {
+        items.forEach(function (item) {
+          item.classList.add(`is-visible`);
+        });
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        function (entries, obs) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add(`is-visible`);
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      items.forEach(function (item, idx) {
+        item.style.transitionDelay = `${Math.min(idx * 55, 220)}ms`;
+        observer.observe(item);
+      });
+    }
+
+    document.addEventListener(`DOMContentLoaded`, buildMenu);
+  </script>
+</body>
+</html>
